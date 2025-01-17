@@ -140,7 +140,10 @@ export default function DataTable() {
     return (
         <Box>
             <Box margin={'2rem 0'} width={'100%'} display={'flex'} gap={'1rem'}>
-                <AppSearch onChange={onSearch} />
+                <AppSearch
+                    value={dataFilter.keyword || ''}
+                    onChange={onSearch}
+                />
                 <DateFilter
                     value={
                         (dataFilter.startDate &&

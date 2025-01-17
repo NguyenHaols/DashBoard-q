@@ -75,7 +75,6 @@ export default function DateFilter({
 
     const handleChange = (event: SelectChangeEvent<string>) => {
         const value = event.target.value as string;
-        console.log('🚀 ~ handleChange ~ value:', value);
         const [startDate, endDate] = JSON.parse(value);
         onChangeFilter({ startDate, endDate });
     };

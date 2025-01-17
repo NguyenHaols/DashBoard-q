@@ -7,28 +7,27 @@ import {
     TextFieldProps,
 } from '@mui/material';
 import _ from 'lodash';
-import { useState } from 'react';
 type Props = {
+    value?: string;
     onChange?: OnSearchType;
     delay?: number;
 } & TextFieldProps;
 
 export default function AppSearch({
+    value = '',
     onChange = () => {},
     delay = 300,
     ...props
 }: Props) {
-    const [value, setValue] = useState('');
-
     const debounceSearchChange = _.debounce(onChange, delay);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-        debounceSearchChange(e);
+        debounceSearchChange({
+            target: { value: e.target.value },
+        } as React.ChangeEvent<HTMLInputElement>);
     };
 
     const handleClear = () => {
-        setValue('');
         debounceSearchChange({
             target: { value: '' },
         } as React.ChangeEvent<HTMLInputElement>);
