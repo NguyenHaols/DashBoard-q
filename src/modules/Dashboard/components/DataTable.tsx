@@ -6,15 +6,14 @@ import { Box, Paper, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useMemo } from 'react';
 import { useFetchServiceStatistic } from '../hooks/useFetchServiceStatistic';
-import { LIMIT_DEFAULT, OFFSET_DEFAULT } from '../types/constants';
 import AppSearch from './AppSearch';
 import DateFilter from './DateFilter';
 
 export default function DataTable() {
     const defaultFilterParam: dataFilterParams = {
         language: LOCALE.EN,
-        offset: OFFSET_DEFAULT,
-        limit: LIMIT_DEFAULT,
+        // offset: OFFSET_DEFAULT,
+        // limit: LIMIT_DEFAULT,
     };
     const { dataFilter, onSearch, onChangeFilter } =
         useFilter(defaultFilterParam);
@@ -142,7 +141,18 @@ export default function DataTable() {
         <Box>
             <Box margin={'2rem 0'} width={'100%'} display={'flex'} gap={'1rem'}>
                 <AppSearch onChange={onSearch} />
-                <DateFilter onChangeFilter={onChangeFilter} />
+                <DateFilter
+                    value={
+                        (dataFilter.startDate &&
+                            dataFilter.endDate &&
+                            JSON.stringify([
+                                dataFilter.startDate,
+                                dataFilter.endDate,
+                            ])) ||
+                        ''
+                    }
+                    onChangeFilter={onChangeFilter}
+                />
             </Box>
             <Paper sx={{ borderRadius: '.5rem' }}>
                 <Box display={'flex'} p={'1.5rem 2rem'} gap={3}>

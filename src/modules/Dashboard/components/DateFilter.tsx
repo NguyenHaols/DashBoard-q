@@ -1,3 +1,4 @@
+import { UseFilterProps } from '@/hooks/useFilter';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {
     FormControl,
@@ -6,24 +7,28 @@ import {
     MenuItem,
     Select,
     SelectChangeEvent,
+    SelectProps,
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { X } from 'lucide-react';
 import { useState } from 'react';
+import { dataFilterParams } from '../types';
 
 interface Option {
     label: string;
     value: string;
 }
 
-interface DateFilterProps {
-    onChangeFilter: (
-        newValue: { startDate: string; endDate: string },
-        backToFirstPage?: boolean
-    ) => void;
-}
+type DateFilterProps = Pick<
+    UseFilterProps<dataFilterParams>,
+    'onChangeFilter'
+> &
+    SelectProps<string> & {};
 
-export default function DateFilter({ onChangeFilter }: DateFilterProps) {
+export default function DateFilter({
+    onChangeFilter,
+    ...props
+}: DateFilterProps) {
     const [hovering, setHovering] = useState<boolean>(false);
     // Hàm tạo danh sách 6 tháng gần nhất
     const getLastSixMonths = (): Option[] => {
@@ -68,26 +73,23 @@ export default function DateFilter({ onChangeFilter }: DateFilterProps) {
     const lastSixMonths = getLastSixMonths();
     const lastThreeYears = getLastThreeYears();
 
-    const [selectedValue, setSelectedValue] = useState<string>('');
-
     const handleChange = (event: SelectChangeEvent<string>) => {
         const value = event.target.value as string;
-        setSelectedValue(value);
+        console.log('🚀 ~ handleChange ~ value:', value);
         const [startDate, endDate] = JSON.parse(value);
         onChangeFilter({ startDate, endDate });
     };
 
     const clearSelection = () => {
-        setSelectedValue('');
         onChangeFilter({ startDate: '', endDate: '' });
     };
 
     return (
         <FormControl sx={{ minWidth: 200 }}>
             <Select
+                {...props}
                 size="small"
                 sx={{ bgcolor: 'white' }}
-                value={selectedValue}
                 onChange={handleChange}
                 displayEmpty
                 IconComponent={() => (

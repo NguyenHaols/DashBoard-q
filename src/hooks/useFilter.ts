@@ -56,7 +56,7 @@ export const useFilter = <DataFilterType extends ServiceStatisticParams>(
 
     const onChangeFilter: OnChangeFilter<DataFilterType> = (
         newValue,
-        backToFirstPage = true
+        backToFirstPage
     ) => {
         const pageParams = backToFirstPage
             ? {

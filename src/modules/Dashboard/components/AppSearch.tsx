@@ -38,7 +38,7 @@ export default function AppSearch({
         <TextField
             value={value}
             onChange={handleChange}
-            label={'Enter search'}
+            placeholder="Enter search"
             size="small"
             sx={{ bgcolor: 'white' }}
             InputProps={{
