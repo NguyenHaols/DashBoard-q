@@ -12,7 +12,7 @@ import {
 import dayjs from 'dayjs';
 import { X } from 'lucide-react';
 import { useState } from 'react';
-import { dataFilterParams } from '../types';
+import { DataFilterParams } from '../types';
 
 interface Option {
     label: string;
@@ -20,7 +20,7 @@ interface Option {
 }
 
 type DateFilterProps = Pick<
-    UseFilterProps<dataFilterParams>,
+    UseFilterProps<DataFilterParams>,
     'onChangeFilter'
 > &
     SelectProps<string> & {};
@@ -75,7 +75,6 @@ export default function DateFilter({
 
     const handleChange = (event: SelectChangeEvent<string>) => {
         const value = event.target.value as string;
-        console.log('🚀 ~ handleChange ~ value:', value);
         const [startDate, endDate] = JSON.parse(value);
         onChangeFilter({ startDate, endDate });
     };

@@ -7,6 +7,8 @@ import { ChangeEventHandler } from 'react';
 
 export type OnSearchType = ChangeEventHandler<HTMLInputElement>;
 
+export type OnChangePage = (offset: number, limit: number) => void;
+
 export type OnChangeFilter<DataFilterType> = (
     newValue: Partial<DataFilterType>,
     backToFirstPage?: boolean
@@ -16,6 +18,7 @@ export interface UseFilterProps<DataFilterType> {
     dataFilter: DataFilterType;
     onSearch: any;
     onChangeFilter: OnChangeFilter<DataFilterType>;
+    onChangePage: OnChangePage;
 }
 
 export const useFilter = <DataFilterType extends ServiceStatisticParams>(
@@ -71,9 +74,17 @@ export const useFilter = <DataFilterType extends ServiceStatisticParams>(
         });
     };
 
+    const onChangePage: OnChangePage = (offset: number, limit: number) => {
+        syncParamsToURL({
+            offset,
+            limit,
+        });
+    };
+
     return {
         dataFilter,
         onSearch,
         onChangeFilter,
+        onChangePage,
     };
 };

@@ -1,5 +1,11 @@
 export interface CommonParams {
-  page: number
-  pageSize: number
-  keyword?: string
+    offset?: number;
+    limit?: number;
+    keyword?: string;
+}
+
+export interface ListResponse<T> {
+    message: string;
+    total: number;
+    data: Array<T>;
 }

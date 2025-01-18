@@ -1,13 +1,13 @@
-'use client'
+'use client';
 // import type { Metadata } from 'next'
-import '../style/globals.css'
-import theme from '@/style/theme'
-import { Box } from '@mui/material'
-import ReactQueryClientProvider from '@/providers/QueryClientProvider'
-import { DashboardLayout } from '@toolpad/core/DashboardLayout'
-import { NAVIGATION } from '@/components/SideBar/constants'
-import { NextAppProvider } from '@toolpad/core/nextjs'
-import { ProgressBar } from '@/components/progress-bar'
+import { ProgressBar } from '@/components/progress-bar';
+import { NAVIGATION } from '@/components/SideBar/constants';
+import ReactQueryClientProvider from '@/providers/QueryClientProvider';
+import theme from '@/style/theme';
+import { Box } from '@mui/material';
+import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+import { NextAppProvider } from '@toolpad/core/nextjs';
+import '../style/globals.css';
 // const geistSans = Geist({
 //   variable: '--font-geist-sans',
 //   subsets: ['latin']
@@ -19,28 +19,30 @@ import { ProgressBar } from '@/components/progress-bar'
 // })
 
 export default function RootLayout({
-  children
+    children,
 }: Readonly<{
-  children: React.ReactNode
+    children: React.ReactNode;
 }>) {
-  // const [open, setOpen] = useState<boolean>(true)
-  return (
-    <html lang='en'>
-      <body
-      // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ReactQueryClientProvider>
-          <NextAppProvider navigation={NAVIGATION} theme={theme}>
-            <DashboardLayout>
-              <Box
-                width={'100%'}
-                bgcolor={(theme) => theme.palette.background.default}
-              >
-                {children}
-              </Box>
-            </DashboardLayout>
-            <ProgressBar />
-            {/* <Box display='flex'>
+    // const [open, setOpen] = useState<boolean>(true)
+    return (
+        <html lang="en">
+            <body
+            // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            >
+                <ReactQueryClientProvider>
+                    <NextAppProvider navigation={NAVIGATION} theme={theme}>
+                        <DashboardLayout>
+                            <Box
+                                width={'100%'}
+                                bgcolor={(theme) =>
+                                    theme.palette.background.default
+                                }
+                            >
+                                {children}
+                            </Box>
+                        </DashboardLayout>
+                        <ProgressBar />
+                        {/* <Box display='flex'>
               <Box position='relative'>
                 {open && <SideBar open={open} />}
                 <Box
@@ -55,9 +57,9 @@ export default function RootLayout({
                 </Box>
               </Box>
             </Box> */}
-          </NextAppProvider>
-        </ReactQueryClientProvider>
-      </body>
-    </html>
-  )
+                    </NextAppProvider>
+                </ReactQueryClientProvider>
+            </body>
+        </html>
+    );
 }

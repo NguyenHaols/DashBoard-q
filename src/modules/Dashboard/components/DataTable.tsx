@@ -1,114 +1,21 @@
-import { LOCALE, STATUS } from '@/enums/common';
+import { STATUS } from '@/enums/common';
 import { formatCurrency } from '@/helper';
 import { useFilter } from '@/hooks/useFilter';
-import { dataFilterParams, ServiceStatistic } from '@/modules/Dashboard/types';
+import { ServiceStatistic } from '@/modules/Dashboard/types';
 import { Box, Paper, Typography } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { useMemo } from 'react';
+import { columns, defaultFilterParam, LIMIT_DEFAULT } from '../constants';
 import { useFetchServiceStatistic } from '../hooks/useFetchServiceStatistic';
 import AppSearch from './AppSearch';
 import DateFilter from './DateFilter';
+import PageTable from './PageTable';
+import ProviderFilter from './ProviderFilter';
 
 export default function DataTable() {
-    const defaultFilterParam: dataFilterParams = {
-        language: LOCALE.EN,
-        // offset: OFFSET_DEFAULT,
-        // limit: LIMIT_DEFAULT,
-    };
-    const { dataFilter, onSearch, onChangeFilter } =
+    const { dataFilter, onSearch, onChangeFilter, onChangePage } =
         useFilter(defaultFilterParam);
     const { data, isFetching } = useFetchServiceStatistic(dataFilter);
-
-    const columns: GridColDef[] = [
-        {
-            field: 'ordinalNumber',
-            headerName: 'No.',
-            sortable: false,
-            disableColumnMenu: true,
-            flex: 0.5,
-        },
-        {
-            field: 'id',
-            headerName: 'ID',
-            sortable: false,
-            disableColumnMenu: true,
-            flex: 0.5,
-        },
-        {
-            field: 'services',
-            headerName: 'Services',
-            sortable: false,
-            disableColumnMenu: true,
-            flex: 2,
-        },
-        {
-            field: 'category',
-            headerName: 'Category',
-            sortable: false,
-            disableColumnMenu: true,
-            flex: 1,
-        },
-        {
-            field: 'provider',
-            headerName: 'Provider',
-            sortable: false,
-            disableColumnMenu: true,
-            flex: 1,
-        },
-        {
-            field: 'undiscountedPrice',
-            headerName: 'Undiscounted Price',
-            sortable: false,
-            disableColumnMenu: true,
-            flex: 1,
-        },
-        {
-            field: 'ratePer1000Original',
-            headerName: 'Rate Per 1000 Original',
-            sortable: false,
-            disableColumnMenu: true,
-            flex: 1,
-        },
-        {
-            field: 'ratio',
-            headerName: 'Ratio',
-            sortable: false,
-            disableColumnMenu: true,
-            flex: 1,
-        },
-        {
-            field: 'level',
-            headerName: 'Level',
-            sortable: false,
-            disableColumnMenu: true,
-            flex: 1,
-        },
-        {
-            field: 'status',
-            headerName: 'Status',
-            sortable: false,
-            disableColumnMenu: true,
-            flex: 1,
-        },
-        {
-            field: 'quantity',
-            headerName: 'Quantity',
-            disableColumnMenu: true,
-            flex: 1,
-        },
-        {
-            field: 'usage',
-            headerName: 'Usage',
-            disableColumnMenu: true,
-            flex: 1,
-        },
-        {
-            field: 'revenue',
-            headerName: 'Revenue',
-            disableColumnMenu: true,
-            flex: 1,
-        },
-    ];
 
     const rows = useMemo(() => {
         return (
@@ -140,7 +47,10 @@ export default function DataTable() {
     return (
         <Box>
             <Box margin={'2rem 0'} width={'100%'} display={'flex'} gap={'1rem'}>
-                <AppSearch onChange={onSearch} />
+                <AppSearch
+                    value={dataFilter.keyword || ''}
+                    onChange={onSearch}
+                />
                 <DateFilter
                     value={
                         (dataFilter.startDate &&
@@ -151,6 +61,10 @@ export default function DataTable() {
                             ])) ||
                         ''
                     }
+                    onChangeFilter={onChangeFilter}
+                />
+                <ProviderFilter
+                    value={dataFilter.providerId?.toString()}
                     onChangeFilter={onChangeFilter}
                 />
             </Box>
@@ -182,6 +96,9 @@ export default function DataTable() {
                     sx={{ border: 0, borderRadius: '.5rem' }}
                 />
             </Paper>
+            <Box display={'flex'} justifyContent={'center'} margin={'1rem 0'}>
+                <PageTable onChangePage={onChangePage} limit={LIMIT_DEFAULT} />
+            </Box>
         </Box>
     );
 }

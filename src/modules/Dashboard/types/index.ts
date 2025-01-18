@@ -113,7 +113,7 @@ export interface ServiceStatisticParams {
     offset?: number;
 }
 
-export interface dataFilterParams extends ServiceStatisticParams {
+export interface DataFilterParams extends ServiceStatisticParams {
     offset?: number;
     limit?: number;
 }
