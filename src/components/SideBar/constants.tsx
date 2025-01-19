@@ -20,8 +20,8 @@ export const NAVIGATION: Navigation = [
     {
         segment: 'services',
         // @ts-ignore
-        title: <p className="text-red-400">Services</p>,
-        icon: <List size={14} />,
+        title: 'Services',
+        icon: <List />,
     },
     {
         segment: 'my-order',
@@ -61,6 +61,7 @@ export const NAVIGATION: Navigation = [
     {
         kind: 'divider',
     },
+
     {
         kind: 'header',
         title: 'More',
