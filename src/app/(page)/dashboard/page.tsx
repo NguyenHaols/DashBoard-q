@@ -1,11 +1,11 @@
 'use client';
 import TitlePage from '@/components/TitlePage';
+import AllOrders from '@/modules/Dashboard/components/AllOrders';
 import DataTable from '@/modules/Dashboard/components/DataTable';
+import Funds from '@/modules/Dashboard/components/Funds';
+import Orders from '@/modules/Dashboard/components/Orders';
 import { useFetchInforOrderMoney } from '@/modules/Dashboard/hooks/useFetchInforOrderMoney';
 import { Box } from '@mui/material';
-import AllOrders from '../../modules/Dashboard/components/AllOrders';
-import Funds from '../../modules/Dashboard/components/Funds';
-import Orders from '../../modules/Dashboard/components/Orders';
 
 export default function Statistic() {
     const {

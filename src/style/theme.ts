@@ -48,27 +48,6 @@ const theme = createTheme({
                 },
             },
         },
-        MuiListItemText: {
-            styleOverrides: {
-                primary: {},
-            },
-        },
-        MuiListItemIcon: {
-            styleOverrides: {
-                root: {
-                    svg: {
-                        width: '16px',
-                    },
-                },
-            },
-        },
-        MuiDrawer: {
-            styleOverrides: {
-                paper: {
-                    maxWidth: '250px !important',
-                },
-            },
-        },
     },
 });
 

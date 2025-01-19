@@ -15,7 +15,7 @@ import {
 export const NAVIGATION: Navigation = [
     {
         kind: 'header',
-        title: <p>Main items</p>,
+        title: 'Main items',
     },
     {
         segment: 'services',
@@ -66,6 +66,7 @@ export const NAVIGATION: Navigation = [
         title: 'More',
     },
     {
+        segment: 'login',
         title: 'Logout',
         icon: <LogOut />,
     },
