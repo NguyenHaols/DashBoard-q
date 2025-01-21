@@ -1,15 +1,8 @@
+import { QUERY_KEY } from '@/constants';
 import { LOCALE } from '@/enums/common';
 
 export const defaultPlatformParam = {
     language: LOCALE.EN,
-};
-
-export const QUERY_KEY = {
-    PLATFORM: {
-        KEY: 'PLATFORM',
-        GET_PLATFORM_LIST: 'GET_PLATFORM_LIST',
-        GET_PLATFORM_DETAIL: 'GET_PLATFORM_DETAIL',
-    },
 };
 
 export const platformKeys = {

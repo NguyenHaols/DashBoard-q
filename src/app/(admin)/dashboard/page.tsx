@@ -1,5 +1,5 @@
 'use client';
-import TitlePage from '@/components/TitlePage';
+import TitlePage from '@/components/titleHeader';
 import AllOrders from '@/modules/Dashboard/components/AllOrders';
 import DataTable from '@/modules/Dashboard/components/DataTable';
 import Funds from '@/modules/Dashboard/components/Funds';

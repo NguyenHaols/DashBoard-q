@@ -1,17 +1,23 @@
+import { ROUTES } from '@/constants/route';
+import { authApi } from '@/modules/auth/apis';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
+const cookies = new Cookies();
 const axiosClient = axios.create({
     baseURL: 'https://be.azseo.net',
     headers: {
         Accept: '*/*',
-        Authorization:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOiIxYzc1NTdkYS1lNGE4LTRjMmYtYTZjNC05MzE5ZmZiNDJhOTciLCJlbWFpbCI6Im5ndXllbmRpbmhoYW8yMDAzM0BnbWFpbC5jb20iLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTczNzEzMTExNywiZXhwIjoxNzM3MjE3NTE3fQ.x-wQr-h1UyAuH3oufkCj2brKuil9FMyJh4qQ1NHWkxM',
     },
     timeout: 10000,
 });
 
 axiosClient.interceptors.request.use(
     (config) => {
+        const token = cookies.get('at');
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
         return config;
     },
     (error) => {
@@ -19,13 +25,35 @@ axiosClient.interceptors.request.use(
     }
 );
 
-axiosClient.interceptors.response.use(
-    (response) => {
-        return response.data;
-    },
-    (error) => {
-        return Promise.reject(error.response?.data || error.message);
+axiosClient.interceptors.response.use(undefined, async (error) => {
+    const refreshToken = cookies.get('rt');
+
+    if (error?.response?.status === 402) {
+        if (refreshToken) {
+            try {
+                const response = await authApi.refreshToken(refreshToken);
+                const newAccessToken = response.data.token;
+
+                if (!newAccessToken)
+                    return (window.location.href = ROUTES.LOGIN);
+
+                const newRefreshToken = response.data.refresh_token;
+
+                cookies.set('at', newAccessToken, { path: '/' });
+                cookies.set('rt', newRefreshToken, { path: '/' });
+
+                // Gửi lại yêu cầu ban đầu với token mới
+                error.config.headers['Authorization'] =
+                    `Bearer ${newAccessToken}`;
+                return axios(error.config);
+            } catch (refreshError) {
+                console.error('Failed to refresh token:', refreshError);
+            }
+        } else {
+            return (window.location.href = ROUTES.LOGIN);
+        }
     }
-);
+    return Promise.reject(error);
+});
 
 export default axiosClient;

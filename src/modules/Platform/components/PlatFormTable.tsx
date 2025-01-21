@@ -1,4 +1,5 @@
 import { formatDate } from '@/helper';
+import { useModalStore } from '@/hooks/useModal';
 import {
     IconButton,
     Paper,
@@ -11,19 +12,20 @@ import {
 } from '@mui/material';
 import { DeleteIcon, EditIcon } from 'lucide-react';
 import Image from 'next/image';
+import { PLATFORM_MODAL } from '../enums';
 import { PlatformData } from '../types';
 
 export default function PlatFormTable({ data }: { data: PlatformData[] }) {
-    console.log('🚀 ~ PlatFormTable ~ data:', data);
-    const rows = data.map((item) => ({
+    const openModal = useModalStore((state) => state.openModal);
+    const rows = data.map((item: PlatformData) => ({
         id: item.id,
         name: item.name,
         icon: item.icon,
-        dateCreated: item.createdAt,
+        dateCreated: item.dateCreated,
     }));
 
-    const handleEdit = () => {
-        console.log('Editing:');
+    const handleEdit = (item: PlatformData) => {
+        openModal(PLATFORM_MODAL.EDIT, item);
     };
 
     const handleDelete = () => {
@@ -63,7 +65,7 @@ export default function PlatFormTable({ data }: { data: PlatformData[] }) {
                                 {formatDate(item.dateCreated)}
                             </TableCell>
                             <TableCell>
-                                <IconButton onClick={() => handleEdit()}>
+                                <IconButton onClick={() => handleEdit(item)}>
                                     <EditIcon />
                                 </IconButton>
                                 <IconButton onClick={() => handleDelete()}>

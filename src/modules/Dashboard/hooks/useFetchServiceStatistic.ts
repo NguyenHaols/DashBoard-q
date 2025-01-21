@@ -1,9 +1,5 @@
 import { fetchServiceStatistic } from '@/modules/Dashboard/apis';
-import {
-    ListServiceStatisticResponse,
-    ServiceStatistic,
-    ServiceStatisticParams,
-} from '@/modules/Dashboard/types';
+import { ServiceStatisticParams } from '@/modules/Dashboard/types';
 import { useQuery } from '@tanstack/react-query';
 
 export const useFetchServiceStatistic = (params: ServiceStatisticParams) => {
@@ -13,7 +9,7 @@ export const useFetchServiceStatistic = (params: ServiceStatisticParams) => {
         placeholderData: (previousData) => previousData,
     });
 
-    const defaultData: ListServiceStatisticResponse<ServiceStatistic> = {
+    const defaultData = {
         message: '',
         total: 0,
         totalMoneySum: 0,
@@ -23,7 +19,7 @@ export const useFetchServiceStatistic = (params: ServiceStatisticParams) => {
     const dataServiceStatistic = data ?? defaultData;
 
     return {
-        data: dataServiceStatistic,
+        data: dataServiceStatistic.data,
         ...restReponse,
     };
 };

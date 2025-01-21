@@ -6,6 +6,6 @@ export interface PlatformData {
     id: number;
     name: string;
     icon: string;
-    location: number;
-    createdAt: string;
+    location?: number;
+    dateCreated: string;
 }
