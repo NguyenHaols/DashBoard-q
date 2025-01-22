@@ -53,6 +53,9 @@ axiosClient.interceptors.response.use(undefined, async (error) => {
             return (window.location.href = ROUTES.LOGIN);
         }
     }
+    if (error?.response?.status === 401) {
+        return (window.location.href = ROUTES.LOGIN);
+    }
     return Promise.reject(error);
 });
 

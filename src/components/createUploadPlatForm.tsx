@@ -1,4 +1,5 @@
 import { useModalStore } from '@/hooks/useModal';
+import { PlatformData } from '@/modules/Platform/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
     Box,
@@ -10,10 +11,8 @@ import {
     useTheme,
 } from '@mui/material';
 import { X } from 'lucide-react';
-import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
-import { infer as Infer, string, z } from 'zod';
-import TrashIcon from '../../public/recycle-bin.svg';
+import { infer as Infer, z } from 'zod';
 import Dropzone from './dropzone';
 
 interface Props {}
@@ -21,7 +20,7 @@ interface Props {}
 export default function CreateUploadPlatForm(props: Props) {
     const theme = useTheme();
     const closeModal = useModalStore((state) => state.closeModal);
-    const dataEdit = useModalStore((state) => state.dataEdit);
+    const dataEdit = useModalStore((state) => state.dataEdit as PlatformData);
 
     const style = {
         position: 'absolute',
@@ -35,34 +34,41 @@ export default function CreateUploadPlatForm(props: Props) {
     };
 
     const platFormScema = z.object({
-        name: string().max(16),
-        icon: string(),
+        name: z
+            .string()
+            .min(1, 'Name is required')
+            .max(16, 'Name must be at most 16 characters'),
+        icon: z.string().min(1, 'Icon is required'),
     });
     type Schema = Infer<typeof platFormScema>;
 
     const {
         control,
         handleSubmit,
+        getValues,
+        setValue,
+
         formState: { errors },
     } = useForm<Schema>({
         mode: 'onChange',
         resolver: zodResolver(platFormScema),
         defaultValues: {
-            name: dataEdit.name || '',
-            icon: dataEdit.icon || '',
+            name: dataEdit?.name || '',
+            icon: dataEdit?.icon || '',
         },
     });
 
-    // const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const file = event.target.files?.[0];
-    //     if (file) {
-    //         const reader = new FileReader();
-    //         reader.onload = () => {
-    //             // setRowItem({});
-    //         };
-    //         reader.readAsDataURL(file);
-    //     }
-    // };
+    const defaultValue = {
+        name: getValues('name'),
+        icon: getValues('icon'),
+    };
+
+    function getFile(file: File | undefined) {
+        if (file) {
+            const fileUrl = URL.createObjectURL(file);
+            setValue('icon', fileUrl);
+        }
+    }
 
     const onSubmit = (data: Schema) => {
         console.log('Submitted Data:', data);
@@ -130,59 +136,26 @@ export default function CreateUploadPlatForm(props: Props) {
                             </Box>
 
                             <Box display={'flex'} alignItems={'center'} mt={2}>
-                                <Dropzone
-                                    uploadTitle={
-                                        'Drag and drop your image icon here'
-                                    }
-                                    acceptFiles={{
-                                        'image/*': ['.jpeg', '.png'],
-                                    }}
-                                />
-                            </Box>
-                            {dataEdit?.id && (
-                                <Box
-                                    display={'flex'}
-                                    marginTop={'1rem'}
-                                    bgcolor={'#f5f5f5'}
-                                    p={'.5rem'}
-                                >
-                                    <Box
-                                        width={'100%'}
-                                        display={'flex'}
-                                        justifyContent={'space-between'}
-                                        gap={1}
-                                        alignItems={'center'}
-                                    >
-                                        <Box>
-                                            <Image
-                                                src={dataEdit.icon}
-                                                alt="icon"
-                                                width={50}
-                                                height={1}
-                                            />
-                                        </Box>
-                                        <Typography
-                                            variant="body2"
-                                            flex={3}
-                                            sx={{
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                                textWrap: 'nowrap',
+                                <Controller
+                                    name="icon"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Dropzone
+                                            {...field}
+                                            uploadTitle={
+                                                'Drag and drop your image icon here'
+                                            }
+                                            acceptFiles={{
+                                                'image/*': ['.jpeg', '.png'],
                                             }}
-                                        >
-                                            {dataEdit.icon}
-                                        </Typography>
-                                        <IconButton sx={{ width: '40px' }}>
-                                            <Image
-                                                alt="icon"
-                                                width={25}
-                                                height={1}
-                                                src={TrashIcon}
-                                            />
-                                        </IconButton>
-                                    </Box>
-                                </Box>
-                            )}
+                                            getFile={getFile}
+                                            error={!!errors.icon}
+                                            setValue={setValue}
+                                            defaultValue={defaultValue}
+                                        />
+                                    )}
+                                ></Controller>
+                            </Box>
 
                             <Box
                                 display={'flex'}

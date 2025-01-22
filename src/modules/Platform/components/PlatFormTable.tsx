@@ -10,7 +10,6 @@ import {
     TableHead,
     TableRow,
 } from '@mui/material';
-import { DeleteIcon, EditIcon } from 'lucide-react';
 import Image from 'next/image';
 import { PLATFORM_MODAL } from '../enums';
 import { PlatformData } from '../types';
@@ -51,9 +50,13 @@ export default function PlatFormTable({ data }: { data: PlatformData[] }) {
                 <TableBody>
                     {rows.map((item, index) => (
                         <TableRow key={item.id}>
-                            <TableCell>{index + 1}</TableCell>
-                            <TableCell>{item.name}</TableCell>
-                            <TableCell>
+                            <TableCell sx={{ padding: '6px 16px' }}>
+                                {index + 1}
+                            </TableCell>
+                            <TableCell sx={{ padding: '6px 16px' }}>
+                                {item.name}
+                            </TableCell>
+                            <TableCell sx={{ padding: '6px 16px' }}>
                                 <Image
                                     src={item.icon}
                                     alt={item.name}
@@ -61,15 +64,31 @@ export default function PlatFormTable({ data }: { data: PlatformData[] }) {
                                     height="24"
                                 />
                             </TableCell>
-                            <TableCell>
+                            <TableCell sx={{ padding: '6px 16px' }}>
                                 {formatDate(item.dateCreated)}
                             </TableCell>
-                            <TableCell>
+                            <TableCell sx={{ padding: '6px 16px' }}>
                                 <IconButton onClick={() => handleEdit(item)}>
-                                    <EditIcon />
+                                    <Image
+                                        src={'/pen.png'}
+                                        alt="icon"
+                                        width={20}
+                                        height={20}
+                                    />
                                 </IconButton>
-                                <IconButton onClick={() => handleDelete()}>
-                                    <DeleteIcon />
+                                <IconButton
+                                    sx={{
+                                        ':hover': { bgcolor: '#dc262633' },
+                                        ml: '1rem',
+                                    }}
+                                    onClick={() => handleDelete()}
+                                >
+                                    <Image
+                                        src={'/delete.png'}
+                                        alt="icon"
+                                        width={20}
+                                        height={20}
+                                    />
                                 </IconButton>
                             </TableCell>
                         </TableRow>

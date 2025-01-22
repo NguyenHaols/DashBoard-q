@@ -21,8 +21,8 @@ export const NAVIGATION: Navigation = [
     {
         segment: 'dashboard',
         // @ts-ignore
-        title: <span>Statistic</span>,
-        icon: <Home />,
+        title: <span className="text-sm">Statistic</span>,
+        icon: <Home size={16} />,
     },
     // {
     //     segment: 'refund',
@@ -46,8 +46,9 @@ export const NAVIGATION: Navigation = [
     // },
     {
         segment: 'platform',
-        title: 'Platform',
-        icon: <LayoutTemplate />,
+        //@ts-ignore
+        title: <span className="text-sm">Platform</span>,
+        icon: <LayoutTemplate size={16} />,
     },
     {
         kind: 'divider',
@@ -59,7 +60,8 @@ export const NAVIGATION: Navigation = [
     },
     {
         segment: 'login',
-        title: 'Logout',
-        icon: <LogOut />,
+        //@ts-ignore
+        title: <span className="text-sm">Logout</span>,
+        icon: <LogOut size={16} />,
     },
 ];

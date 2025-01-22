@@ -1,7 +1,7 @@
 'use client';
 import ReactQueryClientProvider from '@/providers/QueryClientProvider';
-import '../style/globals.css';
-
+import { Poppins } from 'next/font/google';
+const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700', '900'] });
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -9,7 +9,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body>
+            <body className={` ${poppins.className} antialiased`}>
                 <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
             </body>
         </html>
