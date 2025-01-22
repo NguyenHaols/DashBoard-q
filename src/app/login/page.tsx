@@ -2,17 +2,45 @@
 'use client';
 
 import useAuth from '@/modules/auth/hooks/useAuth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 export default function Login() {
     const { login } = useAuth();
+    const [loginReponse, setLoginResponse] = useState<string>('');
+    const loginFormSchema = z.object({
+        email: z.string().email().min(1, 'Email is required'),
+        password: z
+            .string()
+            .min(8)
+            .regex(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'), {
+                message:
+                    'Password must be at least 8 characters and contain an uppercase letter, lowercase letter, and number',
+            }),
+    });
+    type Schema = z.infer<typeof loginFormSchema>;
 
-    async function handleSubmit(e: any) {
-        e.preventDefault();
+    const {
+        control,
+        getValues,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<Schema>({
+        resolver: zodResolver(loginFormSchema),
+    });
+
+    async function onSubmit() {
         const payload = {
-            email: e.target.email.value,
-            password: e.target.password.value,
+            email: getValues('email'),
+            password: getValues('password'),
         };
-        await login(payload);
+        const message = await login(payload);
+        if (message) {
+            setLoginResponse(message);
+        }
     }
 
     return (
@@ -29,40 +57,59 @@ export default function Login() {
                         </h1>
                         <form
                             className="space-y-4 md:space-y-6"
-                            onSubmit={handleSubmit}
+                            onSubmit={handleSubmit(onSubmit)}
                         >
-                            <div>
-                                <label
-                                    htmlFor="email"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                                >
-                                    Your email
-                                </label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                                    placeholder="name@company.com"
-                                    // required=""
-                                />
-                            </div>
-                            <div>
-                                <label
-                                    htmlFor="password"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                                >
-                                    Password
-                                </label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    placeholder="••••••••"
-                                    className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                                    // required=""
-                                />
-                            </div>
+                            <Controller
+                                name="email"
+                                control={control}
+                                render={({ field }) => (
+                                    <div>
+                                        <label
+                                            htmlFor="email"
+                                            className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Your email
+                                        </label>
+                                        <TextField
+                                            {...field}
+                                            error={!!errors.email}
+                                            helperText={errors.email?.message}
+                                            type="email"
+                                            name="email"
+                                            id="email"
+                                            className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                            placeholder="name@company.com"
+                                        />
+                                    </div>
+                                )}
+                            ></Controller>
+                            <Controller
+                                name="password"
+                                control={control}
+                                render={({ field }) => (
+                                    <div>
+                                        <label
+                                            htmlFor="password"
+                                            className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Password
+                                        </label>
+                                        <TextField
+                                            {...field}
+                                            error={!!errors.password}
+                                            helperText={
+                                                errors.password?.message
+                                            }
+                                            type="password"
+                                            name="password"
+                                            id="password"
+                                            placeholder="••••••••"
+                                            className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                            // required=""
+                                        />
+                                    </div>
+                                )}
+                            ></Controller>
                             <div className="flex items-center justify-between">
                                 <a
                                     href="#"
@@ -71,14 +118,18 @@ export default function Login() {
                                     Forgot password?
                                 </a>
                             </div>
-                            <button
+                            <Typography color="error">
+                                {loginReponse}
+                            </Typography>
+                            <Button
+                                variant="contained"
                                 type="submit"
                                 className="bg-primary-600 hover:bg-primary-700 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-black focus:outline-none focus:ring-4"
                             >
                                 Sign in
-                            </button>
+                            </Button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Don’t have an account yet?{' '}
+                                Don’t have an account yet?
                                 <a
                                     href="#"
                                     className="text-primary-600 dark:text-primary-500 font-medium hover:underline"

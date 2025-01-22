@@ -32,10 +32,11 @@ export default function useAuth() {
                 maxAge: 60 * 60 * 24 * 7,
             }); // Lưu refresh token (expires sau 7 ngày)
             await refetch();
-            await router.push(ROUTES.STATISTIC);
-        } catch (error) {
-            console.log(error);
-            // handleError(error);
+            router.push(ROUTES.STATISTIC);
+            return '';
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            return error?.response.data.message;
         }
     }
 

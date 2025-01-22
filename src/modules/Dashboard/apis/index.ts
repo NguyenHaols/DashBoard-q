@@ -1,30 +1,44 @@
 import {
-  ListServiceResponse,
-  ListServiceStatisticResponse,
-  Service,
-  ServiceStatistic,
-  ServiceStatisticParams
-} from '@/modules/Dashboard/types'
-import axiosClient from '../../../apiClient/axiosClient'
+    inForOrderMoneyData,
+    InForOrderMoneyResponse,
+    ListServiceResponse,
+    ListServiceStatisticResponse,
+    OrderStatisticsData,
+    OrderStatisticsResponse,
+    Service,
+    ServiceStatistic,
+    ServiceStatisticParams,
+} from '@/modules/Dashboard/types';
+import axiosClient from '../../../apiClient/axiosClient';
 
-export const fetchInfoOrderMoney = async () => {
-  const res = await axiosClient.get('/order/info-order-money?language=en')
-  return res.data
-}
+export const fetchInfoOrderMoney = () => {
+    return axiosClient.get<InForOrderMoneyResponse<inForOrderMoneyData>>(
+        '/order/info-order-money?language=en'
+    );
+};
 
-export const fetchStatisticalOverview = async () => {
-  const res = await axiosClient.get('order/statistical-overview?language=en')
-  return res.data
-}
+export const fetchStatisticalOverview = () => {
+    return axiosClient.get<OrderStatisticsResponse<OrderStatisticsData>>(
+        'order/statistical-overview?language=en'
+    );
+};
 
-export const fetchServiceList = async () => {
-  return await axiosClient.get<ListServiceResponse<Service>>(
-    'service/list?language=en'
-  )
-}
+export const fetchServiceList = () => {
+    return axiosClient.get<ListServiceResponse<Service>>(
+        'service/list?language=en'
+    );
+};
 
-export const fetchServiceStatistic = async (
-  params: ServiceStatisticParams
-): Promise<ListServiceStatisticResponse<ServiceStatistic>> => {
-  return await axiosClient.get('service/statistics', { params })
-}
+export const fetchServiceStatistic = (params: ServiceStatisticParams) => {
+    return axiosClient.get<ListServiceStatisticResponse<ServiceStatistic>>(
+        'service/statistics',
+        { params }
+    );
+};
+
+export const dashboardApi = {
+    fetchInfoOrderMoney,
+    fetchStatisticalOverview,
+    fetchServiceList,
+    fetchServiceStatistic,
+};

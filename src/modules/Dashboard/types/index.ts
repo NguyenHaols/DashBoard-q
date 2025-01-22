@@ -117,3 +117,31 @@ export interface DataFilterParams extends ServiceStatisticParams {
     offset?: number;
     limit?: number;
 }
+
+export interface Message {
+    message: string;
+}
+
+export interface OrderStatisticsData {
+    totalOrderCompleted: number;
+    totalOrderInProgress: number;
+    totalOrderPartial: number;
+    totalOrderCanceled: number;
+    totalOrderPending: number;
+    totalOrderProcessing: number;
+}
+
+export interface OrderStatisticsResponse<OrderStatisticsData> extends Message {
+    data: OrderStatisticsData;
+}
+
+export interface inForOrderMoneyData {
+    fundsPresent: number;
+    orderProgress: number;
+    totalMoney: number;
+    totalOrderFinish: number;
+}
+
+export interface InForOrderMoneyResponse<inForOrderMoneyData> extends Message {
+    data: inForOrderMoneyData;
+}

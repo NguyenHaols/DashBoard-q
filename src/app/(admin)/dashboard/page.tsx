@@ -24,14 +24,16 @@ export default function Statistic() {
             >
                 <Box width="49%">
                     <Orders
-                        present={inforOrderMoneyData?.fundsPresent}
-                        progress={inforOrderMoneyData?.fundsProgress}
+                        present={inforOrderMoneyData?.data?.fundsPresent}
+                        progress={inforOrderMoneyData?.data?.orderProgress}
                     />
                 </Box>
                 <Box width="49%">
                     <Funds
-                        totalMoney={inforOrderMoneyData?.totalMoney}
-                        totalOrderFinish={inforOrderMoneyData?.totalOrderFinish}
+                        totalMoney={inforOrderMoneyData?.data?.totalMoney}
+                        totalOrderFinish={
+                            inforOrderMoneyData?.data?.totalOrderFinish
+                        }
                     />
                 </Box>
             </Box>
