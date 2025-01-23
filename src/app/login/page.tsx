@@ -11,7 +11,7 @@ export default function Login() {
     const { login } = useAuth();
     const loginFormSchema = z.object({
         email: z.string().email().min(1, 'Email is required'),
-        password: z.string().min(1, 'Cannot be empty'),
+        password: z.string().min(1, 'Password is required'),
         customError: z.string().optional(),
     });
     type Schema = z.infer<typeof loginFormSchema>;
