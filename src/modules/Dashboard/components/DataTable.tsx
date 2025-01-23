@@ -9,7 +9,6 @@ import { columns, defaultFilterParam, LIMIT_DEFAULT } from '../constants';
 import { useFetchServiceStatistic } from '../hooks/useFetchServiceStatistic';
 import AppSearch from './AppSearch';
 import DateFilter from './DateFilter';
-import PageTable from './PageTable';
 import ProviderFilter from './ProviderFilter';
 
 export default function DataTable() {
@@ -43,6 +42,12 @@ export default function DataTable() {
             })) || []
         );
     }, [data]);
+
+    const handleChangePage = (e: any) => {
+        const offset = e.page * e.pageSize;
+        const limit = LIMIT_DEFAULT;
+        onChangePage(offset, limit);
+    };
 
     return (
         <Box>
@@ -84,6 +89,7 @@ export default function DataTable() {
                     </Typography>
                 </Box>
                 <DataGrid
+                    onPaginationModelChange={handleChangePage}
                     loading={isFetching}
                     rows={rows}
                     columns={columns}
@@ -96,9 +102,9 @@ export default function DataTable() {
                     sx={{ border: 0, borderRadius: '.5rem' }}
                 />
             </Paper>
-            <Box display={'flex'} justifyContent={'center'} margin={'1rem 0'}>
+            {/* <Box display={'flex'} justifyContent={'center'} margin={'1rem 0'}>
                 <PageTable onChangePage={onChangePage} limit={LIMIT_DEFAULT} />
-            </Box>
+            </Box> */}
         </Box>
     );
 }

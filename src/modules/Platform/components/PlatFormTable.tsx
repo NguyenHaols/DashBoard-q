@@ -10,6 +10,7 @@ import {
     TableHead,
     TableRow,
 } from '@mui/material';
+import { Edit, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { PLATFORM_MODAL } from '../enums';
 import { PlatformData } from '../types';
@@ -35,14 +36,20 @@ export default function PlatFormTable({ data }: { data: PlatformData[] }) {
             <Table>
                 <TableHead sx={{ bgcolor: '#fafafa' }}>
                     <TableRow>
-                        <TableCell sx={{ fontWeight: '700' }}>No.</TableCell>
-                        <TableCell sx={{ fontWeight: '700' }}>Name</TableCell>
-                        <TableCell sx={{ fontWeight: '700' }}>Icon</TableCell>
-                        <TableCell sx={{ fontWeight: '700' }}>
+                        <TableCell sx={{ fontWeight: '700', width: '10%' }}>
+                            No.
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: '700', width: '20%' }}>
+                            Name
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: '700', width: '20%' }}>
+                            Icon
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: '700', width: '20%' }}>
                             Date created
                         </TableCell>
 
-                        <TableCell sx={{ fontWeight: '700' }}>
+                        <TableCell sx={{ fontWeight: '700', width: '10%' }}>
                             Actions
                         </TableCell>
                     </TableRow>
@@ -69,12 +76,7 @@ export default function PlatFormTable({ data }: { data: PlatformData[] }) {
                             </TableCell>
                             <TableCell sx={{ padding: '6px 16px' }}>
                                 <IconButton onClick={() => handleEdit(item)}>
-                                    <Image
-                                        src={'/pen.png'}
-                                        alt="icon"
-                                        width={20}
-                                        height={20}
-                                    />
+                                    <Edit color="blue" size={18} />
                                 </IconButton>
                                 <IconButton
                                     sx={{
@@ -83,12 +85,7 @@ export default function PlatFormTable({ data }: { data: PlatformData[] }) {
                                     }}
                                     onClick={() => handleDelete(item)}
                                 >
-                                    <Image
-                                        src={'/delete.png'}
-                                        alt="icon"
-                                        width={20}
-                                        height={20}
-                                    />
+                                    <Trash2 color="red" size={18} />
                                 </IconButton>
                             </TableCell>
                         </TableRow>

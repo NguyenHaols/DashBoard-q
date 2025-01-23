@@ -22,7 +22,7 @@ export const NAVIGATION: Navigation = [
         segment: 'dashboard',
         // @ts-ignore
         title: <span className="text-sm">Statistic</span>,
-        icon: <Home size={16} />,
+        icon: <Home size={18} />,
     },
     // {
     //     segment: 'refund',
@@ -48,7 +48,7 @@ export const NAVIGATION: Navigation = [
         segment: 'platform',
         //@ts-ignore
         title: <span className="text-sm">Platform</span>,
-        icon: <LayoutTemplate size={16} />,
+        icon: <LayoutTemplate size={18} />,
     },
     {
         kind: 'divider',
@@ -62,6 +62,6 @@ export const NAVIGATION: Navigation = [
         segment: 'login',
         //@ts-ignore
         title: <span className="text-sm">Logout</span>,
-        icon: <LogOut size={16} />,
+        icon: <LogOut size={18} />,
     },
 ];

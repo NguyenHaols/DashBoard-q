@@ -47,7 +47,10 @@ export const useFilter = <DataFilterType extends ServiceStatisticParams>(
             }
         }
 
-        router.push(`${pathname}?${current.toString()}`);
+        router.push(
+            `${pathname}?${current.toString()}`, // href: Đường dẫn đầy đủ (bao gồm query)
+            { scroll: false }
+        );
     };
 
     const onSearch: OnSearchType = (e) => {

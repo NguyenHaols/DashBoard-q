@@ -3,7 +3,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import { DataFilterParams } from '../types';
 
 export const OFFSET_DEFAULT = 0;
-export const LIMIT_DEFAULT = 20;
+export const LIMIT_DEFAULT = 80;
 export const defaultFilterParam: DataFilterParams = {
     language: LOCALE.EN,
     // offset: OFFSET_DEFAULT,

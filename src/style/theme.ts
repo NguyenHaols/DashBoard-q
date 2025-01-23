@@ -17,7 +17,7 @@ const theme = createTheme({
     },
     typography: {
         fontFamily: 'unset',
-        htmlFontSize: 18,
+        body1: { fontSize: '14px' },
         h1: {
             fontWeight: 700,
         },
