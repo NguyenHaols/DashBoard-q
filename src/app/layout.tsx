@@ -1,9 +1,9 @@
 'use client';
 import ReactQueryClientProvider from '@/providers/QueryClientProvider';
-import { Poppins } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { Suspense } from 'react';
 import '../style/globals.css';
-const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700', '900'] });
+const inter = Inter({ subsets: ['latin'], weight: ['400', '700', '900'] });
 
 export default function RootLayout({
     children,
@@ -12,7 +12,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={` ${poppins.className} antialiased`}>
+            <body className={` ${inter.className} antialiased`}>
                 <Suspense fallback={null}>
                     <ReactQueryClientProvider>
                         {children}
