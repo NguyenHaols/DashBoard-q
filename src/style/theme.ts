@@ -16,7 +16,7 @@ const theme = createTheme({
         },
     },
     typography: {
-        fontFamily: 'poppins',
+        fontFamily: 'inter',
         htmlFontSize: 18,
         h1: {
             fontWeight: 700,
