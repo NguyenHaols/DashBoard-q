@@ -11,13 +11,7 @@ export default function Login() {
     const { login } = useAuth();
     const loginFormSchema = z.object({
         email: z.string().email().min(1, 'Email is required'),
-        password: z
-            .string()
-            .min(8)
-            .regex(new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'), {
-                message:
-                    'Password must be at least 8 characters and contain an uppercase letter, lowercase letter, and number',
-            }),
+        password: z.string().min(1),
         customError: z.string().optional(),
     });
     type Schema = z.infer<typeof loginFormSchema>;
