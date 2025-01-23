@@ -34,7 +34,6 @@ export default function useAuth() {
             await refetch();
             router.push(ROUTES.STATISTIC);
             return '';
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             return error?.response.data.message;
         }

@@ -4,13 +4,11 @@
 import useAuth from '@/modules/auth/hooks/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export default function Login() {
     const { login } = useAuth();
-    const [loginReponse, setLoginResponse] = useState<string>('');
     const loginFormSchema = z.object({
         email: z.string().email().min(1, 'Email is required'),
         password: z
@@ -20,6 +18,7 @@ export default function Login() {
                 message:
                     'Password must be at least 8 characters and contain an uppercase letter, lowercase letter, and number',
             }),
+        customError: z.string().optional(),
     });
     type Schema = z.infer<typeof loginFormSchema>;
 
@@ -27,6 +26,7 @@ export default function Login() {
         control,
         getValues,
         handleSubmit,
+        setError,
         formState: { errors },
     } = useForm<Schema>({
         resolver: zodResolver(loginFormSchema),
@@ -38,9 +38,9 @@ export default function Login() {
             password: getValues('password'),
         };
         const message = await login(payload);
-        if (message) {
-            setLoginResponse(message);
-        }
+        setError('customError', {
+            message: message,
+        });
     }
 
     return (
@@ -72,6 +72,7 @@ export default function Login() {
                                         </label>
                                         <TextField
                                             {...field}
+                                            value={getValues('email') ?? ''}
                                             error={!!errors.email}
                                             helperText={errors.email?.message}
                                             type="email"
@@ -96,6 +97,7 @@ export default function Login() {
                                         </label>
                                         <TextField
                                             {...field}
+                                            value={getValues('password') ?? ''}
                                             error={!!errors.password}
                                             helperText={
                                                 errors.password?.message
@@ -118,8 +120,9 @@ export default function Login() {
                                     Forgot password?
                                 </a>
                             </div>
-                            <Typography color="error">
-                                {loginReponse}
+                            <Typography color="red">
+                                {errors.customError &&
+                                    errors.customError.message}
                             </Typography>
                             <Button
                                 variant="contained"

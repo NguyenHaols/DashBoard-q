@@ -1,6 +1,7 @@
 'use client';
 
 import CreateUploadPlatForm from '@/components/createUploadPlatForm';
+import DeletePlatform from '@/components/deletePlatform';
 import TitlePage from '@/components/titleHeader';
 import { useFilter } from '@/hooks/useFilter';
 import { useModalStore } from '@/hooks/useModal';
@@ -38,6 +39,7 @@ export default function PlatForm() {
             </Box>
             {(typeModal === PLATFORM_MODAL.CREATE ||
                 typeModal === PLATFORM_MODAL.EDIT) && <CreateUploadPlatForm />}
+            {typeModal === PLATFORM_MODAL.DELETE && <DeletePlatform />}
         </Box>
     );
 }

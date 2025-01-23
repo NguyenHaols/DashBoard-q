@@ -7,6 +7,7 @@ import {
     TextFieldProps,
 } from '@mui/material';
 import _ from 'lodash';
+import { useRef } from 'react';
 type Props = {
     value: string;
     onChange?: OnSearchType;
@@ -19,8 +20,12 @@ export default function AppSearch({
     delay = 300,
     ...props
 }: Props) {
+    const inputRef = useRef<HTMLInputElement>(null);
     const debounceSearchChange = _.debounce(onChange, delay);
     const handleClear = () => {
+        if (inputRef.current) {
+            inputRef.current.value = '';
+        }
         debounceSearchChange({
             target: { value: '' },
         } as React.ChangeEvent<HTMLInputElement>);
@@ -28,6 +33,8 @@ export default function AppSearch({
 
     return (
         <TextField
+            defaultValue={value}
+            inputRef={inputRef}
             onChange={(e) => debounceSearchChange(e)}
             placeholder="Enter search"
             size="small"

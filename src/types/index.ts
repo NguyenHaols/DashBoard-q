@@ -9,3 +9,5 @@ export interface ListResponse<T> {
     total: number;
     data: Array<T>;
 }
+
+export interface Props {}

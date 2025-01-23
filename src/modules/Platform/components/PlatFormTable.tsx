@@ -27,8 +27,8 @@ export default function PlatFormTable({ data }: { data: PlatformData[] }) {
         openModal(PLATFORM_MODAL.EDIT, item);
     };
 
-    const handleDelete = () => {
-        console.log('Deleting:');
+    const handleDelete = (item: PlatformData) => {
+        openModal(PLATFORM_MODAL.DELETE, item);
     };
     return (
         <TableContainer component={Paper}>
@@ -81,7 +81,7 @@ export default function PlatFormTable({ data }: { data: PlatformData[] }) {
                                         ':hover': { bgcolor: '#dc262633' },
                                         ml: '1rem',
                                     }}
-                                    onClick={() => handleDelete()}
+                                    onClick={() => handleDelete(item)}
                                 >
                                     <Image
                                         src={'/delete.png'}

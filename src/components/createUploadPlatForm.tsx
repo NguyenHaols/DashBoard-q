@@ -1,5 +1,6 @@
 import { useModalStore } from '@/hooks/useModal';
 import { PlatformData } from '@/modules/Platform/types';
+import { Props } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
     Box,
@@ -15,23 +16,10 @@ import { Controller, useForm } from 'react-hook-form';
 import { infer as Infer, z } from 'zod';
 import Dropzone from './dropzone';
 
-interface Props {}
-
 export default function CreateUploadPlatForm(props: Props) {
     const theme = useTheme();
     const closeModal = useModalStore((state) => state.closeModal);
     const dataEdit = useModalStore((state) => state.dataEdit as PlatformData);
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 500,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-    };
 
     const platFormScema = z.object({
         name: z
@@ -88,7 +76,18 @@ export default function CreateUploadPlatForm(props: Props) {
                     },
                 }}
             >
-                <Box sx={style}>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 500,
+                        bgcolor: 'background.paper',
+                        border: '2px solid #000',
+                        boxShadow: 24,
+                    }}
+                >
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Box
                             display={'flex'}
